@@ -3,7 +3,7 @@ import { useCVStore } from "../../store/cv-store";
 import { SkillsEditor } from "./skills/SkillsEditor";
 import { SettingsEditor } from "./settings/SettingsEditor";
 import { DataManager } from "./DataManager";
-import { ChevronDown, ChevronRight, Eye, EyeOff, GripVertical } from "lucide-react";
+import { ChevronDown, ChevronRight, Eye, EyeOff, GripVertical , Plus} from "lucide-react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -106,13 +106,15 @@ export function EditorPanel() {
         return <LanguagesEditor />;
       case "certificates":
         return <CertificatesEditor />;
-      case "custom":
-        return <CustomSectionEditor />;
+      case "custom": return <CustomSectionEditor sectionId="custom" />;
       case "references":
         return <ReferencesEditor />;
       case "hobbies":
         return <HobbiesEditor />;
       default:
+        if (id.startsWith("custom_")) {
+          return <CustomSectionEditor sectionId={id} />;
+        }
         return <div className="text-sm text-slate-500 italic p-4">Coming soon...</div>;
     }
   };
@@ -165,10 +167,19 @@ export function EditorPanel() {
                 updateSectionSpacing={updateSectionSpacing}
               />
             ))}
-          </SortableContext>
-        </DndContext>
+                      </SortableContext>
+          </DndContext>
+          <div className="mt-4 px-4 pb-4">
+            <button
+              onClick={() => useCVStore.getState().addDynamicSection()}
+              className="w-full flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 py-3 text-sm font-medium text-slate-600 hover:border-slate-400 hover:bg-slate-50 transition-colors"
+            >
+              <Plus size={16} />
+              Add Custom Section
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
 

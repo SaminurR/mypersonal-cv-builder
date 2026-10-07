@@ -50,127 +50,70 @@ export function RetroTemplate({ data, settings }: RetroTemplateProps) {
       case "education":
       case "projects":
       case "certificates":
-      case "custom":
-        const sectionData = data[id as keyof CVData] as any;
-        if (!sectionData || !sectionData.items || !sectionData.items.length) return null;
-        return (
-          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
-            <SectionHeading title={title} />
-            <div className="flex flex-col gap-4">
-              {sectionData.items.map((item: any) => (
-                <div key={item.id} className="border-2 border-black p-3" style={{ boxShadow: '4px 4px 0 0 var(--color-accent)' }}>
-                  <div className="flex justify-between items-baseline border-b-2 border-dotted border-gray-400 pb-2 mb-2">
-                    <div>
-                      <h4 className="font-bold text-lg uppercase">{item.title}</h4>
-                      {item.subtitle && (
-                        <div className="text-[0.9em] font-bold" style={{ color: 'var(--color-subheading)' }}>
-                          {item.subtitle}
-                        </div>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      {item.date && (
-                        <div className="text-[0.9em] font-mono bg-gray-200 px-2 py-0.5 border border-black inline-block">
-                          {item.date}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {item.description && (
-                    <div
-                      className="text-[0.9em] leading-relaxed pl-3 font-mono"
-                      dangerouslySetInnerHTML={{ __html: item.description }}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-
-      case "skills":
-        if (!data.skills.groups.length) return null;
-        return (
-          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
-            <SectionHeading title={title} />
-            <div className="flex flex-col gap-4">
-              {data.skills.groups.map((group) => (
-                <div key={group.id} className="border-2 border-black p-3">
-                  <h4 className="font-bold uppercase mb-2 border-b-2 border-black inline-block">{group.title}</h4>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {group.items.map((item) => (
-                      <div key={item.id} className="border border-black px-2 py-1 bg-white flex items-center gap-2" style={{ boxShadow: '2px 2px 0 0 var(--color-accent)' }}>
-                        <span className="font-bold text-[0.9em]">{item.name}</span>
-                        <span className="font-mono text-[0.8em] bg-gray-200 px-1 border border-black">{item.level}%</span>
+      default: {
+          if (id === "custom" || id.startsWith("custom_")) {
+            const sectionData = id === "custom" ? (data.custom as any) : (data.customSections?.[id] as any);
+            if (!sectionData || !sectionData.items || !sectionData.items.length) return null;
+            const isHorizontal = sectionData.layout === 'horizontal';
+            if (isHorizontal) {
+              return (
+                <div key={id} data-section={id} className="hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
+                  <SectionHeading title={title} />
+                  <div className="flex flex-wrap gap-x-6 gap-y-2">
+                    {sectionData.items.map((item: any) => (
+                      <div key={item.id} className="flex items-center gap-1.5 break-inside-avoid">
+                        {item.url ? (
+                          <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noreferrer" className="font-medium hover:underline flex items-center gap-1" style={{ color: 'var(--color-heading)' }}>
+                            {item.title}
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                          </a>
+                        ) : (
+                          <span className="font-medium" style={{ color: 'var(--color-heading)' }}>{item.title}</span>
+                        )}
                       </div>
                     ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        );
-
-      case "languages":
-        if (!data.languages.items.length) return null;
-        return (
-          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
-            <SectionHeading title={title} />
-            <div className="flex flex-wrap gap-2">
-              {data.languages.items.map((item) => (
-                <div key={item.id} className="border border-black px-2 py-1 bg-white flex items-center gap-2" style={{ boxShadow: '2px 2px 0 0 var(--color-heading)' }}>
-                  <span className="font-bold">{item.language}</span>
-                  <span className="font-mono text-[0.8em] bg-gray-200 px-1 border border-black">{item.proficiency}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-
-      case "references":
-        if (!data.references.items.length) return null;
-        return (
-          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
-            <SectionHeading title={title} />
-            <div className="grid grid-cols-2 gap-4">
-              {data.references.items.map((ref: any) => (
-                <div key={ref.id} className="border-2 border-black p-3" style={{ boxShadow: '4px 4px 0 0 var(--color-muted)' }}>
-                  <h4 className="font-bold uppercase" style={{ color: 'var(--color-heading)' }}>{ref.name}</h4>
-                  {(ref.position || ref.company) && (
-                    <div className="text-[0.9em] font-mono border-b border-dashed border-gray-400 pb-1 mb-1">
-                      {[ref.position, ref.company].filter(Boolean).join(", ")}
+              );
+            }
+            return (
+              <div key={id} data-section={id} className="mb-6 hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
+                <SectionHeading title={title} />
+                <div className="flex flex-col gap-4">
+                  {sectionData.items.map((item: any) => (
+                    <div key={item.id} className="border-2 border-black p-3" style={{ boxShadow: '4px 4px 0 0 var(--color-accent)' }}>
+                      <div className="flex justify-between items-baseline border-b-2 border-dotted border-gray-400 pb-2 mb-2">
+                        <div>
+                          <h4 className="font-bold text-lg uppercase">{item.title}</h4>
+                          {item.subtitle && (
+                            <div className="text-[0.9em] font-bold" style={{ color: 'var(--color-subheading)' }}>
+                              {item.subtitle}
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-right">
+                          {item.date && (
+                            <div className="text-[0.9em] font-mono bg-gray-200 px-2 py-0.5 border border-black inline-block">
+                              {item.date}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {item.description && (
+                        <div
+                          className="text-[0.9em] leading-relaxed pl-3 font-mono"
+                          dangerouslySetInnerHTML={{ __html: item.description }}
+                        />
+                      )}
                     </div>
-                  )}
-                  {ref.contact && <div className="text-[0.9em] mt-1 font-mono">{ref.contact}</div>}
-                  {ref.url && (
-                    <a href={ref.url} className="text-[0.9em] underline font-mono" target="_blank" rel="noreferrer" style={{ color: 'var(--color-accent)' }}>
-                      {ref.url.replace(/^https?:\/\//, '')}
-                    </a>
-                  )}
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        );
-
-      case "hobbies":
-        if (!data.hobbies.items.length) return null;
-        return (
-          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
-            <SectionHeading title={title} />
-            <div className="flex flex-wrap gap-2">
-              {data.hobbies.items.map((hobby: any) => (
-                <span key={hobby.id} className="px-3 py-1 border-2 border-black uppercase font-bold bg-white" style={{ boxShadow: '2px 2px 0 0 var(--color-heading)' }}>
-                  {hobby.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
-    }
+              </div>
+            );
+          }
+          return null;
+        }
+}
   };
 
   return (

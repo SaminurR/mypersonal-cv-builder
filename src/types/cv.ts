@@ -1,15 +1,6 @@
 // ─── Section Identifiers & Metadata ───────────────────
 
-export type SectionId =
-  | "header"
-  | "summary"
-  | "experience"
-  | "skills"
-  | "education"
-  | "projects"
-  | "languages"
-  | "certificates"
-  | "references" | "hobbies" | "custom";
+export type SectionId = "header" | "summary" | "experience" | "skills" | "education" | "projects" | "languages" | "certificates" | "references" | "hobbies" | "custom" | (string & {});
 
 export interface SectionMeta {
   id: SectionId;
@@ -161,6 +152,7 @@ export interface HobbyItem {
 
 export interface CustomEntry {
   id: string;
+  url?: string;
   title: string;
   subtitle: string;
   date: string;
@@ -169,6 +161,7 @@ export interface CustomEntry {
 
 export interface CustomSectionData {
   sectionTitle: string;
+  layout?: "vertical" | "horizontal";
   items: CustomEntry[];
 }
 
@@ -228,5 +221,6 @@ export interface CVData {
   references: { items: ReferenceItem[] };
   hobbies: { items: HobbyItem[] };
   custom: CustomSectionData;
+  customSections?: Record<string, CustomSectionData>;
   settings: CVSettings;
 }
