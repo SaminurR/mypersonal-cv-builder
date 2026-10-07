@@ -92,6 +92,7 @@ export function PreviewPanel() {
               '--color-heading': cv.settings.headingColor || cv.settings.textColor,
               '--color-subheading': cv.settings.subheadingColor || cv.settings.textColor,
               '--color-muted': cv.settings.mutedColor || '#64748b',
+                '--color-section-title': cv.settings.sectionTitleColor || cv.settings.headingColor || cv.settings.textColor,
               '--cv-border-radius': `${cv.settings.borderRadius ?? 4}px`,
             } as React.CSSProperties}
           >

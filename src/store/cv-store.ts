@@ -31,6 +31,7 @@ interface CVStore {
   updateSectionOrder: (sections: SectionMeta[]) => void;
   toggleSectionVisibility: (id: SectionId) => void;
   updateSectionTitle: (id: SectionId, title: string) => void;
+  updateSectionSpacing: (id: SectionId, spacing: number) => void;
 
   // Header
   updateHeader: (partial: Partial<HeaderData>) => void;
@@ -144,6 +145,16 @@ export const useCVStore = create<CVStore>()(
             ...s.cv,
             sections: s.cv.sections.map((sec) =>
               sec.id === id ? { ...sec, title } : sec
+            ),
+          },
+        })),
+
+      updateSectionSpacing: (id, spacing) =>
+        set((s) => ({
+          cv: {
+            ...s.cv,
+            sections: s.cv.sections.map((sec) =>
+              sec.id === id ? { ...sec, spacing } : sec
             ),
           },
         })),

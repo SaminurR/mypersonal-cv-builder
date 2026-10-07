@@ -216,6 +216,8 @@ export const sampleData: CVData = {
 
   settings: {
     pageBgColor: "#ffffff",
+    sectionTitleColor: "#0f172a",
+    globalSpacing: 24,
     textColor: "#334155",
     headingColor: "#0f172a",
     subheadingColor: "#334155",

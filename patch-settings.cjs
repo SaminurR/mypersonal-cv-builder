@@ -2,32 +2,45 @@ const fs = require('fs');
 let p = 'src/components/editor/settings/SettingsEditor.tsx';
 let code = fs.readFileSync(p, 'utf8');
 
-if (!code.includes('PhotoUploader')) {
-  code = code.replace(/import \{ Select \} from "\.\.\/\.\.\/ui\/Select";/, 'import { Select } from "../../ui/Select";\nimport { PhotoUploader } from "../../ui/PhotoUploader";');
-  
-  code = code.replace(/const updateSettings = useCVStore\(\(state\) => state.updateSettings\);/, 'const updateSettings = useCVStore((state) => state.updateSettings);\n  const header = useCVStore((state) => state.cv.header);\n  const updateHeader = useCVStore((state) => state.updateHeader);');
-  
-  const photoSettingsContent = `
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-slate-800 border-b pb-1">Profile Photo</h3>
-        <PhotoUploader value={header.photoUrl} onChange={(url) => updateHeader({ photoUrl: url })} />
-        <div className="space-y-3">
+const resetColorsBlock = `
+  const resetColors = () => {
+    updateSettings({
+      accentColor: '#2563eb',
+      textColor: '#1e293b',
+      headingColor: '#0f172a',
+      subheadingColor: '#334155',
+      mutedColor: '#64748b',
+      pageBgColor: '#ffffff'
+    });
+  };
 `;
-  code = code.replace(/<div className="space-y-3">\s*<h3 className="text-sm font-semibold text-slate-800 border-b pb-1">Photo Settings<\/h3>/, photoSettingsContent);
-  
-  const photoPositionSelect = `
-          <Select
-            label="Photo Position"
-            value={settings.photoPosition || 'right'}
-            onChange={(e) => updateSettings({ photoPosition: e.target.value as any })}
-            options={[
-              { value: "left", label: "Left" },
-              { value: "right", label: "Right" },
-            ]}
-          />
-`;
-  code = code.replace(/<Select\s*label="Photo Shape"/, photoPositionSelect + '        <Select\n          label="Photo Shape"');
 
-  fs.writeFileSync(p, code);
-  console.log('SettingsEditor updated with PhotoUploader');
-}
+code = code.replace(
+  /const applyRandomPalette = \(\) => \{/,
+  resetColorsBlock + '\n  const applyRandomPalette = () => {'
+);
+
+const resetButtonUI = `
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={resetColors}
+                className="flex items-center gap-1 text-[10px] uppercase font-bold text-red-500 hover:text-red-600"
+              >
+                Reset Colors
+              </button>
+              <button 
+                onClick={applyRandomPalette}
+                className="flex items-center gap-1 text-[10px] uppercase font-bold text-blue-600 hover:text-blue-700"
+              >
+                <Shuffle size={12} /> Randomize Theme
+              </button>
+            </div>
+`;
+
+code = code.replace(
+  /<button \s*onClick=\{applyRandomPalette\}[\s\S]*?<\/button>/,
+  resetButtonUI
+);
+
+fs.writeFileSync(p, code);
+console.log('patched settings editor');

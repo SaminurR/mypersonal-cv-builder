@@ -23,6 +23,8 @@ export function EditorPanel() {
   const sections = useCVStore((state) => state.cv.sections);
   const toggleSectionVisibility = useCVStore((state) => state.toggleSectionVisibility);
   const updateSectionOrder = useCVStore((state) => state.updateSectionOrder);
+  const updateSectionTitle = useCVStore((state) => state.updateSectionTitle);
+  const updateSectionSpacing = useCVStore((state) => state.updateSectionSpacing);
 
   // Migration: Rename Hobbies to Interests
   useEffect(() => {
@@ -159,6 +161,8 @@ export function EditorPanel() {
                 toggleAccordion={toggleAccordion}
                 toggleSectionVisibility={toggleSectionVisibility}
                 renderSectionContent={renderSectionContent}
+                updateSectionTitle={updateSectionTitle}
+                updateSectionSpacing={updateSectionSpacing}
               />
             ))}
           </SortableContext>
@@ -169,7 +173,8 @@ export function EditorPanel() {
 }
 
 
-function SortableSectionNode({ section, open, toggleAccordion, toggleSectionVisibility, renderSectionContent }: any) {
+function SortableSectionNode({ section, open, toggleAccordion, toggleSectionVisibility, renderSectionContent, updateSectionTitle, updateSectionSpacing }: any) {
+  const globalSpacing = useCVStore((state) => state.cv.settings.globalSpacing);
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: section.id });
   const style = { transform: CSS.Transform.toString(transform), transition };
 
@@ -205,9 +210,32 @@ function SortableSectionNode({ section, open, toggleAccordion, toggleSectionVisi
         </button>
       </div>
 
-      {/* Accordion Body */}
+            {/* Accordion Body */}
       {open && (
         <div className="border-t border-slate-100 bg-white p-4">
+          <div className="flex gap-4 mb-4 pb-4 border-b border-slate-100 bg-slate-50 p-3 rounded border">
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-slate-700 mb-1">Section Title</label>
+              <input
+                type="text"
+                value={section.title}
+                onChange={(e) => updateSectionTitle(section.id, e.target.value)}
+                className="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-slate-700 mb-1">Bottom Spacing: {section.spacing ?? globalSpacing ?? 24}px</label>
+              <input
+                type="range"
+                min="0"
+                max="64"
+                step="4"
+                value={section.spacing ?? globalSpacing ?? 24}
+                onChange={(e) => updateSectionSpacing(section.id, Number(e.target.value))}
+                className="w-full mt-2 h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+          </div>
           {renderSectionContent(section.id)}
         </div>
       )}

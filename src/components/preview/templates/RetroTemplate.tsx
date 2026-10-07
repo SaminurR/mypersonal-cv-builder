@@ -20,7 +20,7 @@ function SectionHeading({ title }: { title: string }) {
   return (
     <h3 
       className="text-lg font-bold mb-3 uppercase tracking-widest border-b-4 border-black pb-1 inline-block"
-      style={{ color: 'var(--color-heading)', borderColor: 'var(--color-heading)' }}
+      style={{ color: 'var(--color-section-title)', borderColor: 'var(--color-heading)' }}
     >
       {title}
     </h3>
@@ -33,11 +33,12 @@ export function RetroTemplate({ data, settings }: RetroTemplateProps) {
   const textColor = 'var(--color-text)';
 
   const renderSection = (id: SectionId, title: string) => {
+    const spacing = sections.find(sec => sec.id === id)?.spacing ?? settings.globalSpacing ?? 24;
     switch (id) {
       case "summary":
         if (!data.summary.text) return null;
         return (
-          <div key={id} data-section={id} className="mb-6 hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <p className="whitespace-pre-wrap font-mono text-[0.95em] leading-relaxed border-l-4 pl-4 py-1" style={{ borderColor: 'var(--color-accent)' }}>
               {data.summary.text}
@@ -53,7 +54,7 @@ export function RetroTemplate({ data, settings }: RetroTemplateProps) {
         const sectionData = data[id as keyof CVData] as any;
         if (!sectionData || !sectionData.items || !sectionData.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-6 hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-col gap-4">
               {sectionData.items.map((item: any) => (
@@ -90,7 +91,7 @@ export function RetroTemplate({ data, settings }: RetroTemplateProps) {
       case "skills":
         if (!data.skills.groups.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-6 hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-col gap-4">
               {data.skills.groups.map((group) => (
@@ -113,7 +114,7 @@ export function RetroTemplate({ data, settings }: RetroTemplateProps) {
       case "languages":
         if (!data.languages.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-6 hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-wrap gap-2">
               {data.languages.items.map((item) => (
@@ -129,7 +130,7 @@ export function RetroTemplate({ data, settings }: RetroTemplateProps) {
       case "references":
         if (!data.references.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-6 hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="grid grid-cols-2 gap-4">
               {data.references.items.map((ref: any) => (
@@ -155,7 +156,7 @@ export function RetroTemplate({ data, settings }: RetroTemplateProps) {
       case "hobbies":
         if (!data.hobbies.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-6 hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 transition-all cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-wrap gap-2">
               {data.hobbies.items.map((hobby: any) => (

@@ -156,6 +156,8 @@ export const cvSchema = z.object({
   }),
   settings: z.object({
     pageBgColor: z.string(),
+    sectionTitleColor: z.string().default("#0f172a"),
+    globalSpacing: z.number().default(24),
     textColor: z.string(),
     headingColor: z.string().optional().default("#0f172a"),
     subheadingColor: z.string().optional().default("#334155"),

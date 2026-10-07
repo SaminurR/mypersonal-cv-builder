@@ -15,6 +15,7 @@ export interface SectionMeta {
   id: SectionId;
   title: string;
   visible: boolean;
+  spacing?: number;
   order: number;
 }
 
@@ -185,6 +186,8 @@ export type TemplateName = "minimal" | "sidebar" | "compact" | "classic" | "retr
 
 export interface CVSettings {
   pageBgColor: string;
+  sectionTitleColor: string;
+  globalSpacing: number;
   textColor: string;
   headingColor: string;
   subheadingColor: string;

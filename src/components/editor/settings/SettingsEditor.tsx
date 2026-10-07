@@ -31,6 +31,19 @@ export function SettingsEditor() {
   const header = useCVStore((state) => state.cv.header);
   const updateHeader = useCVStore((state) => state.updateHeader);
 
+  
+  const resetColors = () => {
+    updateSettings({
+      accentColor: '#2563eb',
+      textColor: '#1e293b',
+      headingColor: '#0f172a',
+      subheadingColor: '#334155',
+      mutedColor: '#64748b',
+      pageBgColor: '#ffffff',
+      sectionTitleColor: '#0f172a'
+    });
+  };
+
   const applyRandomPalette = () => {
     const randomPalette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
     updateSettings({
@@ -133,12 +146,22 @@ export function SettingsEditor() {
       <div className="space-y-3">
         <div className="flex justify-between items-end border-b pb-1">
           <h3 className="text-sm font-semibold text-slate-800">Colors & Typography</h3>
-          <button 
-            onClick={applyRandomPalette}
-            className="flex items-center gap-1 text-[10px] uppercase font-bold text-blue-600 hover:text-blue-700"
-          >
-            <Shuffle size={12} /> Randomize Theme
-          </button>
+          
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={resetColors}
+                className="flex items-center gap-1 text-[10px] uppercase font-bold text-red-500 hover:text-red-600"
+              >
+                Reset Colors
+              </button>
+              <button 
+                onClick={applyRandomPalette}
+                className="flex items-center gap-1 text-[10px] uppercase font-bold text-blue-600 hover:text-blue-700"
+              >
+                <Shuffle size={12} /> Randomize Theme
+              </button>
+            </div>
+
         </div>
 
         <div className="flex flex-wrap gap-2 mb-2">
@@ -151,7 +174,8 @@ export function SettingsEditor() {
                 headingColor: p.headingColor,
                 subheadingColor: p.subheadingColor,
                 mutedColor: p.mutedColor,
-                pageBgColor: p.pageBgColor 
+                pageBgColor: p.pageBgColor,
+                  sectionTitleColor: p.headingColor 
               })}
               className="w-6 h-6 rounded-full border border-slate-200 shadow-sm"
               style={{ backgroundColor: p.accentColor }}
@@ -259,6 +283,19 @@ export function SettingsEditor() {
               { value: "MM/YYYY", label: "MM/YYYY (01/2023)" },
               { value: "YYYY", label: "YYYY (2023)" },
             ]}
+          />
+        </div>
+
+                <div className="space-y-1.5">
+          <label className="text-xs font-medium text-slate-700">Global Section Spacing: {settings.globalSpacing ?? 24}px</label>
+          <input
+            type="range"
+            min="8"
+            max="64"
+            step="4"
+            value={settings.globalSpacing ?? 24}
+            onChange={(e) => updateSettings({ globalSpacing: Number(e.target.value) })}
+            className="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer"
           />
         </div>
 

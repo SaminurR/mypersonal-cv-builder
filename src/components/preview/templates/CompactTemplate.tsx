@@ -29,7 +29,7 @@ export function CompactTemplate({ data }: MinimalTemplateProps) {
 
   const SectionHeading = ({ title }: { title: string }) => {
     let style: React.CSSProperties = {
-      color: 'var(--color-heading)',
+      color: 'var(--color-section-title)',
       fontSize: "1.1em",
       marginBottom: "0.2em",
       marginTop: "0.5em",
@@ -55,6 +55,7 @@ export function CompactTemplate({ data }: MinimalTemplateProps) {
   };
 
   const renderSection = (id: SectionId, title: string) => {
+    const spacing = sections.find(sec => sec.id === id)?.spacing ?? settings.globalSpacing ?? 24;
     switch (id) {
       case "summary":
         if (!data.summary.text) return null;
@@ -209,7 +210,7 @@ export function CompactTemplate({ data }: MinimalTemplateProps) {
       case "references":
         if (!data.references.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="grid grid-cols-2 gap-4">
               {data.references.items.map((ref: any) => (
@@ -236,7 +237,7 @@ export function CompactTemplate({ data }: MinimalTemplateProps) {
       case "hobbies":
         if (!data.hobbies.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-wrap gap-2">
               {data.hobbies.items.map((hobby: any) => (

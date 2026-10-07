@@ -29,7 +29,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
 
   const SectionHeading = ({ title }: { title: string }) => {
     let style: React.CSSProperties = {
-      color: 'var(--color-heading)',
+      color: 'var(--color-section-title)',
       fontSize: "1.2em",
       marginBottom: "0.5em",
       fontWeight: "bold",
@@ -54,11 +54,12 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
   };
 
   const renderSection = (id: SectionId, title: string) => {
+    const spacing = sections.find(sec => sec.id === id)?.spacing ?? settings.globalSpacing ?? 24;
     switch (id) {
       case "summary":
         if (!data.summary.text) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 break-inside-avoid hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" break-inside-avoid hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>
               {data.summary.text}
@@ -69,7 +70,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "experience":
         if (!data.experience.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-col gap-4">
               {data.experience.items.map((exp) => (
@@ -104,7 +105,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "skills":
         if (!data.skills.groups.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             {data.skills.groups.map((group) => (
               <SkillGroupPreview
@@ -119,7 +120,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "education":
         if (!data.education.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-col gap-3">
               {data.education.items.map((edu) => (
@@ -148,7 +149,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "projects":
         if (!data.projects.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-col gap-3">
               {data.projects.items.map((proj) => (
@@ -190,7 +191,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "languages":
         if (!data.languages.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 break-inside-avoid hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" break-inside-avoid hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-wrap gap-x-6 gap-y-2">
                 {data.languages.items.map((lang) => (
@@ -206,7 +207,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "certificates":
         if (!data.certificates.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-col gap-2">
               {data.certificates.items.map((cert) => (
@@ -230,7 +231,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "references":
         if (!data.references.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="grid grid-cols-2 gap-4">
               {data.references.items.map((ref: any) => (
@@ -257,7 +258,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "hobbies":
         if (!data.hobbies.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title} />
             <div className="flex flex-wrap gap-2">
               {data.hobbies.items.map((hobby: any) => (
@@ -272,7 +273,7 @@ export function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "custom":
         if (!data.custom.items.length) return null;
         return (
-          <div key={id} data-section={id} className="mb-4 hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1">
+          <div key={id} data-section={id} className=" hover:outline-dashed hover:outline-2 hover:outline-blue-300 hover:bg-blue-50/10 transition-all rounded-sm cursor-pointer -mx-2 px-2 py-1" style={{ marginBottom: `${spacing}px` }}>
             <SectionHeading title={title || data.custom.sectionTitle} />
             <div className="flex flex-col gap-3">
               {data.custom.items.map((item) => (
