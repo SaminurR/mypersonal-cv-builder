@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #2563eb;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Base reset */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+@media print {
+  body {
+    background-color: white !important;
+  }
+  
+  /* Hide UI components using Tailwind's print:hidden, but provide fallback */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset layout so the browser handles pagination */
+  #cv-preview-scale-wrapper {
+    transform: none !important;
+  }
+  
+  #cv-preview-page {
+    box-shadow: none !important;
+    min-height: auto !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0; /* Let the cv margin handle it */
+  }
+}
